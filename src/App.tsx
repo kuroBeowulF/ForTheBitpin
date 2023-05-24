@@ -1,10 +1,13 @@
 import Layout from "./Components/Layout/Layout";
 import Market from "./Components/MarketPage/Market";
+import SocketContextComponent from "./lib/SocketProvider";
 
 function App() {
   return (
     <Layout>
-      <Market />
+      <SocketContextComponent>
+        <Market />
+      </SocketContextComponent>
     </Layout>
   );
 }

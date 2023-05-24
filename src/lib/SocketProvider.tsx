@@ -34,3 +34,4 @@ const SocketContextComponent: React.FunctionComponent<
     </SocketContextProvider>
   );
 };
+export default SocketContextComponent;
