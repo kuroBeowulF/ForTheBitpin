@@ -43,9 +43,9 @@ const SocketContextComponent: React.FunctionComponent<
       .finally(() => SocketDispatch({ type: "setLoading", payload: false }));
   }, []);
 
-  // useEffect(() => {
-  //   socket.connect();
-  // }, [socket]);
+  useEffect(() => {
+    socket.connect();
+  }, [socket]);
 
   return (
     <SocketContextProvider value={{ SocketState, SocketDispatch }}>
