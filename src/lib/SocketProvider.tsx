@@ -21,12 +21,12 @@ const SocketContextComponent: React.FunctionComponent<
   const socket = useSocket(SOCKET_URL, {
     reconnectionAttempts: 5,
     reconnectionDelay: 5000,
-    autoConnect: false,
+    autoConnect: true,
   });
 
   useEffect(() => {
     socket.connect();
-  }, []);
+  }, [socket]);
 
   return (
     <SocketContextProvider value={{ SocketState, SocketDispatch }}>
