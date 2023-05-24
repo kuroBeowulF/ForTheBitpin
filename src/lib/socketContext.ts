@@ -4,17 +4,26 @@ import { MarketData } from "../types";
 
 export interface ISocketContextState {
   socket: Socket | undefined;
-  uid: string;
-  users: string[];
+  id: string;
+  loading: boolean;
+  error: boolean;
+  markets: MarketData[];
 }
 export const defaultSocketContextState: ISocketContextState = {
   socket: undefined,
-  uid: "",
-  users: [],
+  id: "",
+  loading: false,
+  error: false,
+  markets: [],
 };
 
-export type TSocketContextActions = "updateCurrency" | "removeCurrency";
-export type TSocketContextPayload = string | MarketData;
+export type TSocketContextActions =
+  | "getAllMarketData"
+  | "updateCurrency"
+  | "removeCurrency"
+  | "setLoading"
+  | "setError";
+export type TSocketContextPayload = any | MarketData;
 
 export interface ISocketContextActions {
   type: TSocketContextActions;
@@ -26,6 +35,12 @@ export const SocketReducer = (
   action: ISocketContextActions
 ) => {
   switch (action.type) {
+    case "getAllMarketData":
+      return { ...state, markets: action.payload };
+    case "setLoading":
+      return { ...state, loading: action.payload };
+    case "setError":
+      return { ...state, error: action.payload };
     case "updateCurrency":
       return state;
     case "removeCurrency":

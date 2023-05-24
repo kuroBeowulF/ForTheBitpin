@@ -1,10 +1,9 @@
-import { useEffect, useState } from "react";
-import axios from "axios";
+import { useContext } from "react";
 import { MarketData } from "../../types";
 import Loading from "./../Loeading/Loading";
 import styled from "@emotion/styled";
 import Cart from "./../MarketCart/Cart";
-import { BASE_URL } from "../../Helpers/Constant";
+import SocketContext from "../../lib/socketContext";
 
 const MarketBox = styled("div")({
   width: "80vw",
@@ -22,25 +21,15 @@ const MarketBox = styled("div")({
 });
 
 export default function Market() {
-  const [loading, setLoading] = useState(false);
-  const [data, setData] = useState<MarketData[] | any>();
-  const [error, setError] = useState(false);
+  const { SocketState } = useContext(SocketContext);
 
-  useEffect(() => {
-    setLoading(true);
-    axios
-      .get(BASE_URL)
-      .then((res) => setData(res.data.results))
-      .catch(() => setError(true))
-      .finally(() => setLoading(false));
-  }, []);
   return (
     <>
-      {loading ? (
+      {SocketState?.loading ? (
         <Loading />
-      ) : !error && data?.length > 0 ? (
+      ) : !SocketState?.error && SocketState?.markets?.length > 0 ? (
         <MarketBox>
-          {data.map((item: MarketData) => {
+          {SocketState.markets.map((item: MarketData) => {
             return (
               <Cart
                 key={item.id}
