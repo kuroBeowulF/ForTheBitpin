@@ -7,7 +7,9 @@ export default function useSocket(
 ): Socket {
   const { current: socket } = useRef(io(uri, opts));
   useEffect(() => {
-    if (socket) socket.close();
+    return () => {
+      if (socket) socket.close();
+    };
   }, [socket]);
   return socket;
 }

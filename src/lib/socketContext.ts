@@ -42,7 +42,14 @@ export const SocketReducer = (
     case "setError":
       return { ...state, error: action.payload };
     case "updateCurrency":
-      return state;
+      let newMarkets = state.markets.map((market) => {
+        if (market.id === action.payload.marketId) {
+          return action.payload;
+        } else {
+          return market;
+        }
+      });
+      return { ...state, markets: newMarkets };
     case "removeCurrency":
       return state;
     default:

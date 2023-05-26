@@ -1,9 +1,4 @@
-import React, {
-  PropsWithChildren,
-  useReducer,
-  useEffect,
-  useState,
-} from "react";
+import React, { PropsWithChildren, useReducer, useEffect } from "react";
 import useSocket from "./useSocket";
 import {
   defaultSocketContextState,
@@ -11,7 +6,6 @@ import {
   SocketReducer,
 } from "./socketContext";
 import { BASE_URL, SOCKET_URL } from "../Helpers/Constant";
-import { MarketData } from "../types";
 import axios from "axios";
 
 export interface ISocketContextComponentProps extends PropsWithChildren {}
@@ -33,6 +27,7 @@ const SocketContextComponent: React.FunctionComponent<
   });
 
   useEffect(() => {
+    // we can take this get req in onConnect of socket .
     SocketDispatch({ type: "setLoading", payload: true });
     axios
       .get(BASE_URL)
@@ -45,6 +40,20 @@ const SocketContextComponent: React.FunctionComponent<
 
   useEffect(() => {
     socket.connect();
+    socket.on("connect", () => {
+      console.log("socket Conneted");
+    });
+    socket.on("sub_to_price_info", (value) => {
+      console.log(value);
+    });
+    return () => {
+      socket.off("connect", () => {
+        console.log("socket Conneted");
+      });
+      socket.off("sub_to_price_info", (value) => {
+        console.log(value);
+      });
+    };
   }, [socket]);
 
   return (
